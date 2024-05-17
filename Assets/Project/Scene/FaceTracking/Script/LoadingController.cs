@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class LoadingController : MonoBehaviour
+namespace AssignmentLearn
 {
-    private void Start()
+    public class LoadingController : MonoBehaviour
     {
-        StartCoroutine(LoadingToInit());
-    }
-    private IEnumerator LoadingToInit()
-    {
-        yield return new WaitForSeconds(4f);
-        SceneController.Instance.LoadScene("Menu");
+        private void Start()
+        {
+            StartCoroutine(LoadingToInit());
+        }
+        private IEnumerator LoadingToInit()
+        {
+            yield return new WaitForSeconds(4f);
+            SceneController.Instance.LoadScene("Menu");
+        }
     }
 }

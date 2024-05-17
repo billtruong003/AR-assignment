@@ -14,15 +14,17 @@ public class DoorManager : MonoBehaviour
     void Start()
     {
     }
+
     private void Update()
     {
         FaceDoorToCam();
     }
+
     public void SetCam(Transform cam)
     {
         mainCamera = cam;
-
     }
+
     private void FaceDoorToCam()
     {
         if (ready || mainCamera == null)

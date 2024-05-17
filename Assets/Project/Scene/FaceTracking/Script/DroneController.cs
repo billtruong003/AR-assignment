@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+
 namespace AssignmentLearn
 {
-    public class MainManager : Singleton<MainManager>
+    public class DroneController : MonoBehaviour
     {
-
         // Start is called before the first frame update
         void Start()
         {
@@ -19,9 +18,9 @@ namespace AssignmentLearn
 
         }
 
-        protected override void OnDestroy()
+        private void DetectPosition()
         {
-            base.OnDestroy();
+
         }
     }
 }

@@ -2,40 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class SceneController : Singleton<SceneController>
+namespace AssignmentLearn
 {
-
-    [SerializeField] private string loadingSceneName = "LoadingScene";
-    [SerializeField] private string menuSceneName = "Menu";
-    [SerializeField] private string gamePlayScene = "GamePlay";
-
-    public void LoadScene(string sceneName, bool withLoading = false)
+    public class SceneController : Singleton<SceneController>
     {
-        if (!withLoading)
+
+        [SerializeField] private string loadingSceneName = "LoadingScene";
+        [SerializeField] private string menuSceneName = "Menu";
+        [SerializeField] private string gamePlayScene = "GamePlay";
+
+        public void LoadScene(string sceneName, bool withLoading = false)
         {
-            SceneManager.LoadScene(sceneName);
-            return;
+            if (!withLoading)
+            {
+                SceneManager.LoadScene(sceneName);
+                return;
+            }
+            StartCoroutine(LoadSceneAsync(sceneName));
         }
-        StartCoroutine(LoadSceneAsync(sceneName));
-    }
-    private IEnumerator LoadSceneAsync(string sceneName)
-    {
-        yield return SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Additive);
-
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-        while (!asyncLoad.isDone)
+        private IEnumerator LoadSceneAsync(string sceneName)
         {
-            yield return null;
+            yield return SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Additive);
+
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
+            SceneManager.UnloadSceneAsync(loadingSceneName);
         }
 
-        SceneManager.UnloadSceneAsync(loadingSceneName);
-    }
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
 
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
     }
-
 }
