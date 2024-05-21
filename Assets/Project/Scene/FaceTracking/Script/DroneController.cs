@@ -28,7 +28,6 @@ namespace AssignmentLearn
         private void Init()
         {
             StartCoroutine(GetMainManager());
-
         }
 
         private IEnumerator GetMainManager()
@@ -44,6 +43,20 @@ namespace AssignmentLearn
             Vector3 drone = transform.position;
             transform.position.Set(drone.x, drone.y, 0);
             transform.rotation = Quaternion.identity;
+        }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("ScoreZone"))
+            {
+                mainManager.AddScore();
+                Debug.Log("Score increased!");
+            }
+            else if (other.CompareTag("Obstacle"))
+            {
+                mainManager.GameDone(transform.position);
+                gameObject.SetActive(false);
+                Debug.Log("Game Over!");
+            }
         }
     }
 }

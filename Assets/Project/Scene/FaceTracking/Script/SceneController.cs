@@ -8,7 +8,7 @@ namespace AssignmentLearn
     {
 
         [SerializeField] private string loadingSceneName = "LoadingScene";
-        [SerializeField] private string LoadingBetweenScene = "LoadingBetween";
+        [SerializeField] private string loadingBetweenScene = "LoadingBetween";
         [SerializeField] private string menuSceneName = "Menu";
         [SerializeField] private string gamePlayScene = "GamePlay";
 
@@ -25,18 +25,42 @@ namespace AssignmentLearn
         private IEnumerator LoadSceneAsync(string sceneName)
         {
             Scene currentScene = SceneManager.GetActiveScene();
-            yield return SceneManager.LoadSceneAsync(LoadingBetweenScene, LoadSceneMode.Additive);
-
+            yield return SceneManager.LoadSceneAsync(loadingBetweenScene, LoadSceneMode.Additive);
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             yield return new WaitUntil(() => asyncLoad.isDone);
-            yield return new WaitForSeconds(2);
-            SceneManager.UnloadSceneAsync(LoadingBetweenScene);
+            BringLoadingSceneToFront();
             SceneManager.UnloadSceneAsync(currentScene);
+            SceneManager.UnloadSceneAsync(loadingBetweenScene);
+        }
+        private void BringLoadingSceneToFront()
+        {
+            Scene targetScene = SceneManager.GetSceneByName(loadingBetweenScene);
+            if (targetScene.IsValid() && targetScene.isLoaded)
+            {
+                SceneManager.SetActiveScene(targetScene);
+            }
         }
 
         public void LoadSceneWithLoading(string sceneName)
         {
             StartCoroutine(LoadSceneAsync(sceneName));
+        }
+        public void ReloadSceneAsync()
+        {
+            int currentScene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentScene);
+        }
+        private IEnumerator ReloadSceneAsync(string sceneName)
+        {
+            yield return SceneManager.LoadSceneAsync(loadingBetweenScene, LoadSceneMode.Additive);
+
+            AsyncOperation asyncUnload = SceneManager.UnloadSceneAsync(sceneName);
+            yield return new WaitUntil(() => asyncUnload.isDone);
+
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            yield return new WaitUntil(() => asyncLoad.isDone);
+
+            SceneManager.UnloadSceneAsync(loadingBetweenScene);
         }
 
         public void QuitGame()

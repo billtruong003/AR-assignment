@@ -23,16 +23,10 @@ public class VFXManager : Singleton<VFXManager>
     }
 
     [Button]
-    public void activeFlashSmoke()
+    public void activeFlashSmoke(Vector3 poseFlash)
     {
-        flash.Pause();
-        flash.Play();
-    }
-
-    [Button]
-    private void deactiveFlashSmoke()
-    {
-        // flash.SetActive(true);
+        flash.transform.position = poseFlash;
+        flash.gameObject.SetActive(true);
     }
 
     private void fixPose()

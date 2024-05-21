@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AssignmentLearn;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,14 +11,16 @@ public class MapScrolling : MonoBehaviour
     [SerializeField] private Vector3 poseUpdate;
     [SerializeField] private float yLim = 2;
     [SerializeField] private float xLim = 6;
-    [SerializeField] private float moveSpeed = 2;
     [SerializeField] private GameObject pipePrefab;
     [SerializeField] private Stack<GameObject> pipePool = new Stack<GameObject>();
     [SerializeField] private int poolSize = 10;
     [SerializeField] private PipeScrolling pipeScrolling;
+    [SerializeField] private MapConfig mapConfig;
+    [SerializeField] private PipeType mapDecide;
     // Start is called before the first frame update
     void Start()
     {
+        InitMap();
         InitPipes();
         StartCoroutine(SpawnPipes());
     }
@@ -36,11 +39,16 @@ public class MapScrolling : MonoBehaviour
         Debug.Log("Update Pose");
     }
 
+    private void InitMap()
+    {
+        GameObject pipe = mapConfig.GetPrefabPipe(mapDecide);
+        pipePrefab = pipe;
+    }
     private IEnumerator SpawnPipes()
     {
-        while (true)
+        while (!MainManager.Instance.GameOver)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(2);
 
             float spawnX = -6f;
             float spawnY = Random.Range(-yLim, yLim);

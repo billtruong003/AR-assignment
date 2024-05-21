@@ -17,8 +17,9 @@ public class PipeScrolling : MonoBehaviour
     {
 
         transform.position += Vector3.right * moveSpeed * Time.deltaTime;
-        if (transform.position.x < deadZone)
+        if (transform.position.x > deadZone)
         {
+            gameObject.SetActive(false);
             mapScroll.ReturnPipeToPool(gameObject);
         }
     }

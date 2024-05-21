@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: MapConfig
   m_EditorClassIdentifier: 
   mapInfo:
-  - pipe: {fileID: 0}
-    pipeType: 0
-  - pipe: {fileID: 0}
+  - pathToPipe: Prefabs/Industrial
     pipeType: 0
