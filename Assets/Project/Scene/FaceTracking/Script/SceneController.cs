@@ -21,7 +21,7 @@ namespace AssignmentLearn
             }
             StartCoroutine(LoadSceneAsync(sceneName));
         }
-        
+
         private IEnumerator LoadSceneAsync(string sceneName)
         {
             Scene currentScene = SceneManager.GetActiveScene();
@@ -48,5 +48,6 @@ namespace AssignmentLearn
         {
             base.Awake();
         }
+
     }
 }

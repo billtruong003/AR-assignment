@@ -28,14 +28,5 @@ namespace AssignmentLearn
         {
             base.Awake();
         }
-        // #TODO: REMOVE IN CASE
-        public void processPosing()
-        {
-            if (TrackingPose.Instance == null)
-                return;
-            poseTrackingBall = TrackingPose.Instance.GetPoseTrackingBall();
-            this.x = poseTrackingBall.x;
-            this.y = poseTrackingBall.y;
-        }
     }
 }

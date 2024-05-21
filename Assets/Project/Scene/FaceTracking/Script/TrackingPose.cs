@@ -22,11 +22,5 @@ namespace AssignmentLearn
         {
             base.Awake();
         }
-        // #TODO: REMOVE IN CASE
-        public Vector3 GetPoseTrackingBall()
-        {
-            return trackingBall.position;
-        }
-
     }
 }
