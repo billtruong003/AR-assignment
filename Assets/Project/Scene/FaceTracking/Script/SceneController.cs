@@ -8,6 +8,7 @@ namespace AssignmentLearn
     {
 
         [SerializeField] private string loadingSceneName = "LoadingScene";
+        [SerializeField] private string LoadingBetweenScene = "LoadingBetween";
         [SerializeField] private string menuSceneName = "Menu";
         [SerializeField] private string gamePlayScene = "GamePlay";
 
@@ -20,24 +21,32 @@ namespace AssignmentLearn
             }
             StartCoroutine(LoadSceneAsync(sceneName));
         }
+        
         private IEnumerator LoadSceneAsync(string sceneName)
         {
-            yield return SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Additive);
+            Scene currentScene = SceneManager.GetActiveScene();
+            yield return SceneManager.LoadSceneAsync(LoadingBetweenScene, LoadSceneMode.Additive);
 
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-
-            SceneManager.UnloadSceneAsync(loadingSceneName);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            yield return new WaitUntil(() => asyncLoad.isDone);
+            yield return new WaitForSeconds(2);
+            SceneManager.UnloadSceneAsync(LoadingBetweenScene);
+            SceneManager.UnloadSceneAsync(currentScene);
         }
 
-        protected override void OnDestroy()
+        public void LoadSceneWithLoading(string sceneName)
         {
-            base.OnDestroy();
+            StartCoroutine(LoadSceneAsync(sceneName));
         }
 
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
     }
 }

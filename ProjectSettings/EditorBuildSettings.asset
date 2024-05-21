@@ -6,23 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Project/Scene/FaceTracking/Loading.unity
+    guid: 1825204d4ea694d4bb761eb031dc5eda
+  - enabled: 1
+    path: Assets/Project/Scene/FaceTracking/Menu.unity
+    guid: 1d7e4ad6db902fe49b94a128cb211610
+  - enabled: 1
     path: Assets/Project/Scene/FaceTracking/GamePlay.unity
     guid: f14c3937b15afb844b218e23792f9398
+  - enabled: 1
+    path: Assets/Project/Scene/FaceTracking/LoadingBetween.unity
+    guid: 936337ee4babe1749b0a923d73589137
   - enabled: 1
     path: Assets/Scenes/FaceTracking/FacePose.unity
     guid: d8b65509a10894e1dbb93c799ececfd9
   - enabled: 1
     path: Assets/Project/Scene/Scene.unity
     guid: 0d2b53acd838cc8418270e06f31fd763
-  - enabled: 1
-    path: Assets/Project/Scene/FaceTracking/Menu.unity
-    guid: 1d7e4ad6db902fe49b94a128cb211610
-  - enabled: 1
-    path: Assets/Project/Scene/FaceTracking/LoadingBetween.unity
-    guid: 936337ee4babe1749b0a923d73589137
-  - enabled: 1
-    path: Assets/Project/Scene/FaceTracking/Loading.unity
-    guid: 1825204d4ea694d4bb761eb031dc5eda
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: f8ce26fe3bc69499b9be4b2378e97a94,
       type: 2}

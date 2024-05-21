@@ -6,22 +6,36 @@ namespace AssignmentLearn
 {
     public class MainManager : Singleton<MainManager>
     {
-
-        // Start is called before the first frame update
+        public float x, y;
+        private Vector3 poseTrackingBall;
+        private TrackingPose trackingPose;
+        private bool GameOver;
         void Start()
         {
-
+            GameOver = false;
         }
 
-        // Update is called once per frame
         void Update()
         {
-
         }
 
-        protected override void OnDestroy()
+        private void GameDone()
         {
-            base.OnDestroy();
+            GameOver = true;
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+        // #TODO: REMOVE IN CASE
+        public void processPosing()
+        {
+            if (TrackingPose.Instance == null)
+                return;
+            poseTrackingBall = TrackingPose.Instance.GetPoseTrackingBall();
+            this.x = poseTrackingBall.x;
+            this.y = poseTrackingBall.y;
         }
     }
 }

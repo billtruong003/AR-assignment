@@ -5,14 +5,41 @@ namespace AssignmentLearn
 {
     public class MenuController : MonoBehaviour
     {
-        private void Start()
+        [SerializeField] private Dictionary<Scenes, string> nameScenes = new()
+            {
+                { Scenes.PLAY, "GamePlay" },
+                { Scenes.SHOP, "GamePlay" },
+            };
+        public void ChangeScenePlay()
         {
-            StartCoroutine(LoadingToInit());
+            string sceneName = GetSceneName(Scenes.PLAY);
+            SceneController.Instance.LoadSceneWithLoading(sceneName);
         }
-        private IEnumerator LoadingToInit()
+        public void ChangeSceneShop()
         {
-            yield return new WaitForSeconds(4f);
-            SceneController.Instance.LoadScene("Menu");
+            string sceneName = GetSceneName(Scenes.SHOP);
+            SceneController.Instance.LoadSceneWithLoading(sceneName);
+        }
+        public void QuitGame()
+        {
+            SceneController.Instance.QuitGame();
+        }
+
+        private enum Scenes{
+            PLAY,
+            SHOP,
+        }
+        private string GetSceneName(Scenes scene)
+        {
+            if (nameScenes.TryGetValue(scene, out string sceneName))
+            {
+                return sceneName;
+            }
+            else
+            {
+                Debug.LogWarning($"Scene name for {scene} not found.");
+                return null;
+            }
         }
     }
 }

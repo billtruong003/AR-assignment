@@ -1,76 +1,44 @@
 using UnityEngine;
 
-namespace AssignmentLearn
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    [SerializeField] private bool dontDestroyOnLoad = false;
+    private static T _instance;
+
+    public static T Instance
     {
-        private static T instance;
-        private static readonly object lockObj = new object();
-        private static bool applicationIsQuitting = false;
-        [SerializeField] private bool dontDestroyOnLoad = true; // Mặc định là true
-
-        public static T Instance
+        get
         {
-            get
+            if (_instance == null)
             {
-                if (applicationIsQuitting)
-                {
-                    Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                        "' already destroyed on application quit." +
-                        " Won't create again - returning null.");
-                    return null;
-                }
+                _instance = FindObjectOfType<T>();
 
-                lock (lockObj)
+                if (_instance != null)
                 {
-                    if (instance == null)
+                    Singleton<T> singleton = ((MonoBehaviour)_instance).GetComponent<Singleton<T>>();
+                    if (singleton.dontDestroyOnLoad)
                     {
-                        instance = (T)FindObjectOfType(typeof(T));
-
-                        if (FindObjectsOfType(typeof(T)).Length > 1)
-                        {
-                            Debug.LogError("[Singleton] Something went really wrong " +
-                                " - there should never be more than 1 singleton!" +
-                                " Reopening the scene might fix it.");
-                            return instance;
-                        }
-
-                        if (instance == null)
-                        {
-                            GameObject singleton = new GameObject();
-                            instance = singleton.AddComponent<T>();
-                            singleton.name = "(singleton) " + typeof(T).ToString();
-
-                            Singleton<T> singletonComponent = singleton.GetComponent<Singleton<T>>();
-                            if (singletonComponent.dontDestroyOnLoad)
-                            {
-                                DontDestroyOnLoad(singleton);
-                            }
-
-                            Debug.Log("[Singleton] An instance of " + typeof(T) +
-                                " is needed in the scene, so '" + singleton +
-                                "' was created with DontDestroyOnLoad: " + singletonComponent.dontDestroyOnLoad);
-                        }
-                        else
-                        {
-                            Debug.Log("[Singleton] Using instance already created: " +
-                                instance.gameObject.name);
-                        }
+                        DontDestroyOnLoad(_instance.gameObject);
                     }
-
-                    return instance;
                 }
             }
+            return _instance;
         }
+    }
 
-        public void SetDontDestroyOnLoad(bool value)
+    protected virtual void Awake()
+    {
+        if (_instance == null)
         {
-            dontDestroyOnLoad = value;
+            _instance = this as T;
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
-
-        protected virtual void OnDestroy()
+        else if (_instance != this)
         {
-            applicationIsQuitting = true;
+            Destroy(gameObject);
         }
     }
 }
