@@ -5,7 +5,9 @@ namespace AssignmentLearn
 {
     public class MenuController : MonoBehaviour
     {
-        [SerializeField] private Dictionary<Scenes, string> nameScenes = new()
+        // Use dictionary for fun =))
+        [SerializeField]
+        private Dictionary<Scenes, string> nameScenes = new()
             {
                 { Scenes.PLAY, "GamePlay" },
                 { Scenes.SHOP, "GamePlay" },
@@ -25,7 +27,8 @@ namespace AssignmentLearn
             SceneController.Instance.QuitGame();
         }
 
-        private enum Scenes{
+        private enum Scenes
+        {
             PLAY,
             SHOP,
         }
